@@ -1,0 +1,54 @@
+.calendar {
+  &__header {
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  &__month {
+    display: flex;
+    border: 1px solid black;
+    min-height: 200px;
+    flex-direction: column;
+  }
+
+  &__week {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__day {
+    flex-direction: column;
+    cursor: pointer;
+    width: calc(100% / 7);
+    height: 95px;
+    display: flex;
+    color: lightgray;
+    border: 1px solid black;
+    padding-left: 2px;
+
+    &--today {
+      color: white;
+      font-weight: bold;
+      border-radius: 15%;
+
+      span {
+        padding: 3px;
+        text-align: center;
+        background: purple;
+      }
+    }
+
+    &--current {
+      color: black;
+      font-weight: bold;
+    }
+  }
+
+  &__reminder-list {
+    li {
+      color: black;
+      font-size: 12px;
+      list-style: none;
+    }
+  }
+}

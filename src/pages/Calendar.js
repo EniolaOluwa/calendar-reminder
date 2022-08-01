@@ -1,11 +1,10 @@
 import React from "react";
+import CalendarComponent from "../components/Calendar/index";
 
-function Calendar(props) {
-  // your calendar implementation Goes here!
-  // Be creative
+function Calendar() {
   return (
     <div className="container">
-      <h1>Calendar</h1>
+      <CalendarComponent />
     </div>
   );
 }

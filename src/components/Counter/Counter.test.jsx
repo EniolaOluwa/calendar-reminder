@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 
-import Counter from "./Counter";
+import Counter from ".";
 
 test("Counter component", () => {
   render(<Counter limit={5} />);

@@ -1,0 +1,53 @@
+.reminder-list-modal {
+  width: 400px;
+  height: 200px;
+
+  &__header {
+    width: 100%;
+    display: flex;
+    color: black;
+    justify-content: space-between;
+
+    p {
+      font-weight: bold;
+    }
+
+    button {
+      border: none;
+      color: white;
+      background: red;
+      height: 40px;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 7px 0;
+      color: purple;
+      font-weight: bold;
+      background: white;
+      cursor: pointer;
+      padding: 7px 0;
+      border-radius: 7px;
+      text-align: center;
+      border: 1px solid purple;
+      text-transform: capitalize;
+    }
+  }
+
+  &__add-reminder {
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    background: purple;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+  }
+}
