@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Modal from "react-modal";
 import TimePicker from "react-time-picker";
-import { addNewReminder, toggleFormModal } from "../../actions/calendar";
+import getDailyReminder from "../../utils/getDailyReminder";
+import {
+  addNewReminder,
+  toggleFormModal,
+  updateReminder,
+  updateCurrentForm,
+} from "../../actions/calendar";
 
 import "./style.scss";
 
@@ -26,7 +32,9 @@ function ReminderModal({ selectedDay, toast }) {
   const [weather, setWeather] = useState("");
   const [location, setLocation] = useState("");
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
-  const { showFormModal } = useSelector((state) => state.calendar);
+  const { showFormModal, currentFormId, reminders } = useSelector(
+    (state) => state.calendar
+  );
 
   const dispatch = useDispatch();
 
@@ -53,13 +61,27 @@ function ReminderModal({ selectedDay, toast }) {
     }
   };
 
+  useEffect(() => {
+    if (currentFormId) {
+      setBtnIsDisabled(false);
+      const currentDate = getDailyReminder(selectedDay, { reminders });
+      const currentReminder = currentDate.dateReminders.find(
+        (rem) => rem.id === currentFormId
+      );
+      setTitle(currentReminder.title);
+      setLocation(currentDate.city);
+      setWeather(currentDate.icon);
+      setTime(currentReminder.time);
+    }
+  }, [currentFormId, selectedDay]);
+
   const getLocationInformation = async () => {
     if (!location) return;
     const icon = await getForecast(location);
     setWeather(icon);
   };
 
-  const addReminder = (e) => {
+  const submitReminder = (e) => {
     e.preventDefault();
     const info = {
       title,
@@ -68,13 +90,21 @@ function ReminderModal({ selectedDay, toast }) {
       time,
       date: moment(selectedDay).format("YYYY-MM-DD"),
     };
-    dispatch(addNewReminder(info));
-    toast.success("Reminder has been created");
+
+    if (currentFormId) {
+      info.id = currentFormId;
+      dispatch(updateReminder(info));
+      toast.success("Reminder has been updated");
+    } else {
+      dispatch(addNewReminder(info));
+      toast.success("Reminder has been created");
+    }
     setBtnIsDisabled(true);
     [setLocation, setTime, setTitle, setWeather].forEach((setter) =>
       setter("")
     );
     dispatch(toggleFormModal());
+    dispatch(updateCurrentForm());
   };
 
   return (
@@ -93,7 +123,7 @@ function ReminderModal({ selectedDay, toast }) {
         </button>
       </div>
 
-      <form className="reminder-modal__form" onSubmit={addReminder}>
+      <form className="reminder-modal__form" onSubmit={submitReminder}>
         <div className="reminder-modal__form-group">
           <input
             placeholder="Reminder Title 30 character max"
@@ -127,7 +157,7 @@ function ReminderModal({ selectedDay, toast }) {
           className="reminder-modal__button"
           disabled={btnIsDisabled}
         >
-          Add Reminder
+          {currentFormId ? "Update Reminder" : " Add Reminder"}
         </button>
       </form>
     </Modal>

@@ -2,7 +2,11 @@ import React from "react";
 import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
 import getDailyReminder from "../../utils/getDailyReminder";
-import { toggleFormModal, toggleListModal } from "../../actions/calendar";
+import {
+  toggleFormModal,
+  toggleListModal,
+  updateCurrentForm,
+} from "../../actions/calendar";
 
 import "./style.scss";
 
@@ -30,6 +34,12 @@ function ReminderListModal({ day }) {
     dispatch(toggleFormModal());
   };
 
+  const updateExistingReminder = (id) => {
+    dispatch(updateCurrentForm(id));
+    dispatch(toggleListModal());
+    dispatch(toggleFormModal());
+  };
+
   return (
     <Modal
       isOpen={calendarStore.showListModal}
@@ -51,7 +61,9 @@ function ReminderListModal({ day }) {
           {reminders.dateReminders &&
             reminders.dateReminders.length &&
             reminders.dateReminders.map(({ title, id }) => (
-              <li key={id}>{title}</li>
+              <li key={id} onClick={() => updateExistingReminder(id)}>
+                {title}
+              </li>
             ))}
         </ul>
 
