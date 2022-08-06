@@ -48,6 +48,9 @@ function Calendar() {
     if (isToday(day)) {
       return `${cssName}--today`;
     } else if (dayIsInCurrentMonth(day)) {
+      if (["Sunday", "Saturday"].includes(moment(day).format("dddd"))) {
+        return `${cssName}--weekend`;
+      }
       return `${cssName}--current`;
     } else {
       return "";
@@ -65,6 +68,16 @@ function Calendar() {
     <div className="calendar">
       <div className="calendar__header">
         <h1>{getCalendarTitle()}</h1>
+      </div>
+
+      <div>
+        <ul className="calendar__weekdays">
+          {moment.weekdays().map((day, index) => (
+            <li key={index} className="calendar__weekday">
+              {day}
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="calendar__month">
