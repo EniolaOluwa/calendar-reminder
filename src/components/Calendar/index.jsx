@@ -7,7 +7,11 @@ import ReminderList from "../ReminderList";
 import ReminderListModal from "../ReminderListModal";
 import getDailyReminder from "../../utils/getDailyReminder";
 import generateMonthData from "../../utils/generateMonthData";
-import { toggleFormModal, toggleListModal } from "../../actions/calendar";
+import {
+  toggleFormModal,
+  toggleListModal,
+  updateCurrentForm,
+} from "../../actions/calendar";
 
 import "./style.scss";
 
@@ -19,7 +23,6 @@ function Calendar() {
 
   const dispatch = useDispatch();
   const calendarStore = useSelector((state) => state.calendar);
-  const [listModalIsOpen, setListModalIsOpen] = useState(false);
 
   function isToday(day) {
     return moment(day).isSame(new Date(), "day");
@@ -36,11 +39,8 @@ function Calendar() {
 
   function openModal(day) {
     setSelectedDay(day);
+    updateCurrentForm("");
     dispatch(toggleFormModal());
-  }
-
-  function closeModal() {
-    setIsOpen(false);
   }
 
   function getDayClass(day) {
@@ -93,11 +93,9 @@ function Calendar() {
         toast={toast}
         selectedDay={selectedDay}
         modalIsOpen={modalIsOpen}
-        closeModal={closeModal}
       />
       <ReminderListModal
         day={selectedDay}
-        modalIsOpen={listModalIsOpen}
         closeModal={() => dispatch(toggleListModal())}
       />
       <Toaster />

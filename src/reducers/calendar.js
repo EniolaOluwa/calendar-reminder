@@ -3,6 +3,8 @@ import {
   ADD_REMINDER,
   TOGGLE_FORM_MODAL,
   TOGGLE_LIST_MODAL,
+  UPDATE_CURRENT_FORM,
+  UPDATE_REMINDER,
 } from "../types/calendar";
 
 const initialState = {
@@ -14,11 +16,13 @@ const initialState = {
       dateReminders: [
         {
           id: "uuid-6373",
+          time: "11:45",
           title: "example",
         },
       ],
     },
   ],
+  currentFormId: "",
   showFormModal: false,
   showListModal: false,
 };
@@ -27,6 +31,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_REMINDER:
       return {
+        ...state,
         reminders: state.reminders.find((reminder) =>
           moment(reminder.date).isSame(action.data.date)
         )
@@ -69,6 +74,31 @@ const reducer = (state = initialState, action) => {
             ],
       };
 
+    case UPDATE_REMINDER:
+      return {
+        ...state,
+        reminders: state.reminders.map((reminder) => {
+          if (moment(reminder.date).isSame(moment(action.data.date), "day")) {
+            return {
+              ...reminder,
+              city: action.data.city,
+              icon: action.data.icon,
+              dateReminders: reminder.dateReminders.map((dateReminder) => {
+                if ((dateReminder.id = action.data.id)) {
+                  return {
+                    ...dateReminder,
+                    title: action.data.title,
+                    time: action.data.time,
+                  };
+                }
+                return dateReminder;
+              }),
+            };
+          }
+          return reminder;
+        }),
+      };
+
     case TOGGLE_FORM_MODAL:
       return {
         ...state,
@@ -79,6 +109,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showListModal: !state.showListModal,
+      };
+
+    case UPDATE_CURRENT_FORM:
+      return {
+        ...state,
+        currentFormId: action.value,
       };
 
     default:
