@@ -6,18 +6,12 @@ const initialState = {};
 const enhancers = [];
 const middleware = [thunk];
 
-// if (process.env.NODE_ENV === "development") {
-//   const devToolsExtension = window.devToolsExtension;
+if (process.env.NODE_ENV === "development") {
+  const devToolsExtension = window.devToolsExtension;
 
-//   if (typeof devToolsExtension === "function") {
-//     enhancers.push(devToolsExtension());
-//   }
-// }
-
-const devToolsExtension = window.devToolsExtension;
-
-if (typeof devToolsExtension === "function") {
-  enhancers.push(devToolsExtension());
+  if (typeof devToolsExtension === "function") {
+    enhancers.push(devToolsExtension());
+  }
 }
 
 const composedEnhancers = composeWithDevTools(

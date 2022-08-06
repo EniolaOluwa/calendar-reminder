@@ -26,20 +26,11 @@
   }
 
   &__button {
-    height: 40px;
-    color: white;
+    height: var(--btn-height);
+    color: var(--white-text);
     border: none;
     font-weight: bold;
-    background: purple;
-    border-radius: 5px;
-  }
-
-  &__close-btn {
-    color: white;
-    background: red;
-    border: none;
-    height: 40px;
-    font-weight: bold;
+    background: var(--weekends);
     border-radius: 5px;
   }
 

@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
+import CloseModalBtn from "../CloseModalBtn";
+import customStyles from "../../utils/modalCustomStyles";
 import getDailyReminder from "../../utils/getDailyReminder";
 import {
   toggleFormModal,
@@ -9,19 +11,6 @@ import {
 } from "../../actions/calendar";
 
 import "./style.scss";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-Modal.setAppElement("#root");
 
 function ReminderListModal({ day }) {
   const dispatch = useDispatch();
@@ -49,13 +38,7 @@ function ReminderListModal({ day }) {
       <div className="reminder-list-modal" style={{ width: "60" }}>
         <div className="reminder-list-modal__header">
           <p>Reminders</p>
-          {/* TODO: Abstract close button into it's own component */}
-          <button
-            className="reminder-list-modal__close-btn"
-            onClick={closeModal}
-          >
-            Close
-          </button>
+          <CloseModalBtn onClick={closeModal} />
         </div>
         <ul className="reminder-list-modal__list">
           {reminders.dateReminders &&

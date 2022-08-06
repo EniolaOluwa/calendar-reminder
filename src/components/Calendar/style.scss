@@ -6,10 +6,10 @@
 
   &__month {
     display: flex;
-    border: 1px solid #c0c0c0;
     min-height: 200px;
-    border-top: none;
     flex-direction: column;
+    border: 1px solid var(--dividers);
+    border-top: none;
   }
 
   &__week {
@@ -18,14 +18,14 @@
   }
 
   &__day {
-    flex-direction: column;
-    cursor: pointer;
-    width: calc(100% / 7);
     height: 95px;
     display: flex;
-    color: lightgray;
-    border: 1px solid #c0c0c0;
+    cursor: pointer;
     padding-left: 2px;
+    color: var(--out-days);
+    flex-direction: column;
+    width: var(--cell-size);
+    border: 1px solid var(--dividers);
 
     &--today {
       color: white;
@@ -35,44 +35,26 @@
       span {
         padding: 3px;
         text-align: center;
-        background: #2f74b5;
+        background: var(--weekends);
       }
     }
 
     &--current {
-      color: black;
+      color: var(--dark-color);
       font-weight: bold;
     }
 
     &--weekend {
-      color: #2f74b5;
+      color: var(--weekends);
       font-weight: bold;
     }
   }
 
   &__reminder-list {
     li {
-      color: black;
+      color: var(--dark-color);
       font-size: 12px;
       list-style: none;
-    }
-  }
-
-  &__weekdays {
-    padding: 0;
-    display: flex;
-    list-style: none;
-    border-bottom: none;
-
-    li {
-      height: 16px;
-      color: white;
-      background: #2f74b5;
-      font-weight: bold;
-      font-size: 11px;
-      text-align: center;
-      padding-left: 1px;
-      width: calc(100% / 7);
     }
   }
 }

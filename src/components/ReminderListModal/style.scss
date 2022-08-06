@@ -5,20 +5,11 @@
   &__header {
     width: 100%;
     display: flex;
-    color: black;
+    color: var(--dark-color);
     justify-content: space-between;
 
     p {
       font-weight: bold;
-    }
-
-    button {
-      border: none;
-      color: white;
-      background: red;
-      height: 40px;
-      font-weight: bold;
-      border-radius: 5px;
     }
   }
 
@@ -29,14 +20,14 @@
 
     li {
       margin: 7px 0;
-      color: purple;
+      color: var(--weekends);
       font-weight: bold;
-      background: white;
+      background: var(--white-text);
       cursor: pointer;
       padding: 7px 0;
       border-radius: 7px;
       text-align: center;
-      border: 1px solid purple;
+      border: 1px solid var(--weekends);
       text-transform: capitalize;
     }
   }
@@ -45,8 +36,8 @@
     width: 100%;
     color: white;
     font-weight: bold;
-    background: purple;
-    height: 40px;
+    background: var(--weekends);
+    height: var(--btn-height);
     border: none;
     border-radius: 5px;
   }
