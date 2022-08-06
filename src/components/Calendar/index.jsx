@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import moment from "moment";
+import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import ReminderModal from "../ReminderModal";
 import ReminderList from "../ReminderList";
+import CalendarHeader from "../CalendarHeader";
 import ReminderListModal from "../ReminderListModal";
 import getDailyReminder from "../../utils/getDailyReminder";
 import generateMonthData from "../../utils/generateMonthData";
+import { getCalendarMonth, getDayClass } from "../../utils/calendarHelpers";
 import {
   toggleFormModal,
   toggleListModal,
@@ -15,22 +18,15 @@ import {
 
 import "./style.scss";
 
+Modal.setAppElement("#root");
+
 function Calendar() {
   const present = moment();
   const monthData = generateMonthData(present);
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState();
 
   const dispatch = useDispatch();
   const calendarStore = useSelector((state) => state.calendar);
-
-  function isToday(day) {
-    return moment(day).isSame(new Date(), "day");
-  }
-
-  function getCalendarTitle() {
-    return `${present.format("MMMM")} ${present.format("YYYY")}`;
-  }
 
   function openListModal(day) {
     setSelectedDay(day);
@@ -43,42 +39,13 @@ function Calendar() {
     dispatch(toggleFormModal());
   }
 
-  function getDayClass(day) {
-    const cssName = "calendar__day";
-    if (isToday(day)) {
-      return `${cssName}--today`;
-    } else if (dayIsInCurrentMonth(day)) {
-      if (["Sunday", "Saturday"].includes(moment(day).format("dddd"))) {
-        return `${cssName}--weekend`;
-      }
-      return `${cssName}--current`;
-    } else {
-      return "";
-    }
-  }
-
-  function dayIsInCurrentMonth(day) {
-    return moment(moment(day)).isBetween(
-      moment(present).startOf("month").subtract(1, "day").format("YYYY-MM-DD"),
-      moment(present).endOf("month").add(1, "day").format("YYYY-MM-DD")
-    );
-  }
-
   return (
     <div className="calendar">
       <div className="calendar__header">
-        <h1>{getCalendarTitle()}</h1>
+        <h1>{getCalendarMonth(present)}</h1>
       </div>
 
-      <div>
-        <ul className="calendar__weekdays">
-          {moment.weekdays().map((day, index) => (
-            <li key={index} className="calendar__weekday">
-              {day}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <CalendarHeader />
 
       <div className="calendar__month">
         {monthData.map((week, weekInd) => (
@@ -93,7 +60,7 @@ function Calendar() {
                     : openModal(day)
                 }
               >
-                <p className={getDayClass(day)}>
+                <p className={getDayClass(day, present)}>
                   <span>{day.format("D")}</span>
                 </p>
                 <ReminderList day={day} />
@@ -102,11 +69,7 @@ function Calendar() {
           </div>
         ))}
       </div>
-      <ReminderModal
-        toast={toast}
-        selectedDay={selectedDay}
-        modalIsOpen={modalIsOpen}
-      />
+      <ReminderModal toast={toast} selectedDay={selectedDay} />
       <ReminderListModal
         day={selectedDay}
         closeModal={() => dispatch(toggleListModal())}

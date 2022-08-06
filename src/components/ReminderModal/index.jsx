@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Modal from "react-modal";
 import TimePicker from "react-time-picker";
+import CloseModalBtn from "../CloseModalBtn";
+import customStyles from "../../utils/modalCustomStyles";
 import getDailyReminder from "../../utils/getDailyReminder";
+import getForecastForLocation from "../../utils/getForecastForLocation";
 import {
   addNewReminder,
   toggleFormModal,
@@ -12,19 +15,6 @@ import {
 } from "../../actions/calendar";
 
 import "./style.scss";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-Modal.setAppElement("#root");
 
 function ReminderModal({ selectedDay, toast }) {
   const [time, setTime] = useState("");
@@ -42,25 +32,6 @@ function ReminderModal({ selectedDay, toast }) {
     dispatch(toggleFormModal());
   }
 
-  const apiKey = `BSJ998UF4TZW7KG9LDUXLCU2D`;
-  const getUrlForForecast = (location) =>
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${moment(
-      selectedDay
-    ).format("YYYY-MM-DD")}?key=${apiKey}`;
-
-  const getForecast = async (location) => {
-    setBtnIsDisabled(true);
-    try {
-      const response = await fetch(getUrlForForecast(location));
-      if (!response.ok) return "Failed to get weather";
-      const { days } = await response.json();
-      setBtnIsDisabled(false);
-      return days[0].icon;
-    } catch (error) {
-      return "Error occur while getting weather";
-    }
-  };
-
   useEffect(() => {
     if (currentFormId) {
       setBtnIsDisabled(false);
@@ -77,7 +48,11 @@ function ReminderModal({ selectedDay, toast }) {
 
   const getLocationInformation = async () => {
     if (!location) return;
-    const icon = await getForecast(location);
+    const icon = await getForecastForLocation(
+      selectedDay,
+      location,
+      setBtnIsDisabled
+    );
     setWeather(icon);
   };
 
@@ -118,9 +93,7 @@ function ReminderModal({ selectedDay, toast }) {
           Reminder for
           {selectedDay && moment(selectedDay).format(" dddd MMMM DD, YYYY")}
         </h3>
-        <button className="reminder-modal__close-btn" onClick={closeModal}>
-          Close
-        </button>
+        <CloseModalBtn onClick={closeModal} />
       </div>
 
       <form className="reminder-modal__form" onSubmit={submitReminder}>

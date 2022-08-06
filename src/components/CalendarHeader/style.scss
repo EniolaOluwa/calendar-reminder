@@ -1,0 +1,19 @@
+.calendar-header {
+  &__weekdays {
+    padding: 0;
+    display: flex;
+    list-style: none;
+    border-bottom: none;
+
+    li {
+      height: 16px;
+      color: var(--white-text);
+      background: var(--weekends);
+      font-weight: bold;
+      font-size: 11px;
+      text-align: center;
+      padding-left: 1px;
+      width: var(--cell-size);
+    }
+  }
+}
