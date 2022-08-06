@@ -1,21 +1,21 @@
 import moment from "moment";
 
-function isToday(day) {
+const isToday = (day) => {
   return moment(day).isSame(new Date(), "day");
-}
+};
 
-function dayIsInCurrentMonth(day, present) {
+const dayIsInCurrentMonth = (day, present) => {
   return moment(moment(day)).isBetween(
     moment(present).startOf("month").subtract(1, "day").format("YYYY-MM-DD"),
     moment(present).endOf("month").add(1, "day").format("YYYY-MM-DD")
   );
-}
+};
 
-function getCalendarMonth(present) {
+const getCalendarMonth = (present) => {
   return `${present.format("MMMM")} ${present.format("YYYY")}`;
-}
+};
 
-function getDayClass(day, present) {
+const getDayClass = (day, present) => {
   const cssName = "calendar__day";
   if (isToday(day)) {
     return `${cssName}--today`;
@@ -27,6 +27,6 @@ function getDayClass(day, present) {
   } else {
     return "";
   }
-}
+};
 
 export { getDayClass, getCalendarMonth };
