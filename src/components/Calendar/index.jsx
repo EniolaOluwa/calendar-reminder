@@ -28,16 +28,16 @@ function Calendar() {
   const dispatch = useDispatch();
   const calendarStore = useSelector((state) => state.calendar);
 
-  function openListModal(day) {
+  const openListModal = (day) => {
     setSelectedDay(day);
     dispatch(toggleListModal());
-  }
+  };
 
-  function openModal(day) {
+  const openModal = (day) => {
     setSelectedDay(day);
     updateCurrentForm("");
     dispatch(toggleFormModal());
-  }
+  };
 
   return (
     <div className="calendar">

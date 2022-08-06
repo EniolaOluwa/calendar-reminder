@@ -28,9 +28,9 @@ function ReminderModal({ selectedDay, toast }) {
 
   const dispatch = useDispatch();
 
-  function closeModal() {
+  const closeModal = () => {
     dispatch(toggleFormModal());
-  }
+  };
 
   useEffect(() => {
     if (currentFormId) {
@@ -79,7 +79,7 @@ function ReminderModal({ selectedDay, toast }) {
       setter("")
     );
     dispatch(toggleFormModal());
-    dispatch(updateCurrentForm());
+    dispatch(updateCurrentForm(""));
   };
 
   return (

@@ -8,20 +8,7 @@ import {
 } from "../types/calendar";
 
 const initialState = {
-  reminders: [
-    {
-      city: "Abijan",
-      icon: "rain",
-      date: "2022-08-09",
-      dateReminders: [
-        {
-          id: "uuid-6373",
-          time: "11:45",
-          title: "example",
-        },
-      ],
-    },
-  ],
+  reminders: [],
   currentFormId: "",
   showFormModal: false,
   showListModal: false,
