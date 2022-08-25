@@ -4,7 +4,7 @@
 
 ## Project Requirements
 
-These are the tools that should be installed in order to correctly serve/build/release the React Challenge application:
+These are the tools that should be installed in order to correctly serve/build/release the React Reminder application:
 
     Node       : ^14.20.0
     npm        : ^6.14.17
